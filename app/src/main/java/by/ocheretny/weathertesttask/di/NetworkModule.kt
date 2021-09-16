@@ -1,9 +1,7 @@
 package by.ocheretny.weathertesttask.di
 
 import by.ocheretny.weathertesttask.BuildConfig
-import by.ocheretny.weathertesttask.mappers.response.WeatherResponseMapper
 import by.ocheretny.weathertesttask.network.WeatherService
-import by.ocheretny.weathertesttask.repository.NetworkRepository
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -35,20 +33,7 @@ val networkModule = module {
             .create()
     }
 
-    fun provideWeatherResponseMapper(): WeatherResponseMapper {
-        return WeatherResponseMapper()
-    }
-
-    fun provideNetworkRepository(
-        apiService: WeatherService,
-        mapper: WeatherResponseMapper
-    ): NetworkRepository {
-        return NetworkRepository(apiService, mapper)
-    }
-
     single { provideOkHttpInterceptor() }
     single { provideOkHttpClient(get()) }
     single { provideEmployeeWeather(get()) }
-    single { provideWeatherResponseMapper() }
-    single { provideNetworkRepository(get(), get()) }
 }
